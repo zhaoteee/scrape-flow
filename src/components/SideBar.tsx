@@ -39,7 +39,6 @@ export function DesktopSidebar() {
         '>
             <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
                 <Logo />
-                22
             </div>
             <div className="flex flex-col p-2">
                 {

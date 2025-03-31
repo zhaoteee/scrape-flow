@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+/**
+  pnpm add prisma @prisma/client
+  npx prisma init --datasource-provider sqlite
+  npx prisma migrate dev
+  npx prisma studio
+*/
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Workflow {
+  id          String @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+
+  defintion   String
+  status      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, userId])
+}
