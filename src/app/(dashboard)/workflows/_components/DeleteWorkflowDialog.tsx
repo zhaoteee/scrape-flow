@@ -1,17 +1,29 @@
-import { Alert } from '@/components/ui/alert';
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import DeleteWorkflow from '@/ations/workflows/deleteWorkflow';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
-import { AlertDialogCancel } from '@radix-ui/react-alert-dialog';
+import { useMutation } from '@tanstack/react-query';
 import React from 'react'
+import { toast } from 'sonner';
 
 interface Props {
     open: boolean;
     setOpen: (open: boolean) => void;
     workflowName: string;
+    workflowId: string;
 }
 
-export default function DeleteWorkflowDialog({ open, setOpen, workflowName }: Props) {
+export default function DeleteWorkflowDialog({ open, setOpen, workflowName, workflowId }: Props) {
   const [confirmText, setConfirmText] = React.useState<string>("");
+  const deleteMutation = useMutation({
+    mutationFn: DeleteWorkflow,
+    onSuccess: () => {
+      toast.success("Workflow deleted successfully", { id: workflowId });
+      setConfirmText("");
+    },
+    onError: () => {
+      toast.error("Failed to delete workflow", { id: workflowId });
+    }
+  })
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent>
@@ -27,7 +39,16 @@ export default function DeleteWorkflowDialog({ open, setOpen, workflowName }: Pr
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction disabled={confirmText !== workflowName} className='bg-destructive text-destructive-foreground hover:bg-destructive/90' >
+              <AlertDialogAction
+                disabled={confirmText !== workflowName}
+                className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toast.loading("Deleting workflow...");
+                  deleteMutation.mutate(workflowId);
+                  setOpen(false);
+                }}
+                >
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>

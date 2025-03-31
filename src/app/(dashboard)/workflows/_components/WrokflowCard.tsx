@@ -58,7 +58,12 @@ export default function WrokflowCard({ workflow }: { workflow: Workflow }) {
 function WorkflowAction({ workflow }: { workflow: Workflow }) {
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   return  <>
-    <DeleteWorkflowDialog open={showDeleteDialog} setOpen={setShowDeleteDialog} workflowName={workflow.name}  />
+    <DeleteWorkflowDialog
+      open={showDeleteDialog}
+      setOpen={setShowDeleteDialog}
+      workflowName={workflow.name}
+      workflowId={workflow.id}
+    />
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
 
