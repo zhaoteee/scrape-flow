@@ -1,10 +1,10 @@
 import { getWorkflowsForUser } from '@/ations/workflows/getWorkflowsForUser'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
-import { waitFor } from '@/lib/helpers/waitFor'
 import { AlertCircle, InboxIcon } from 'lucide-react'
 import React, { Suspense } from 'react'
 import CreateWorkflowDialog from './_components/CreateWorkflowDialog'
+import WrokflowCard from './_components/WrokflowCard'
 
 export default function page() {
   return (
@@ -14,6 +14,7 @@ export default function page() {
                 <h1 className='text-3xl font-bold'>Workflows</h1>
                 <p className='text-muted-foreground'>Manage your workflows</p>
             </div>
+            <CreateWorkflowDialog triggerText='Create workflow' />  
         </div>
 
         <div className='h-full py-6'>
@@ -36,10 +37,7 @@ function UserWorkflowsSkeleton() {
 }
 
 async function UserWorkflows() {
-    console.log(111)
     const workflows =  await getWorkflowsForUser()
-    console.log(22)
-    console.log(workflows)
     if (!workflows) {
         return <Alert variant={"destructive"}>
             <AlertCircle className='w-4 h-4'></AlertCircle>
@@ -62,8 +60,12 @@ async function UserWorkflows() {
         </div>
     }
     return (
-        <div>
-            <h1>User Workflows</h1>
+        <div className='grid grid-cols-1 gap-4'>
+            {
+                workflows.map((workflow) => (
+                    <WrokflowCard key={workflow.id} workflow={workflow} />
+                ))
+            }
         </div>
     )
 }
