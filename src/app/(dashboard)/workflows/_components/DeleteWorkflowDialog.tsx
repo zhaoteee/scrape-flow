@@ -42,7 +42,7 @@ export default function DeleteWorkflowDialog({ open, setOpen, workflowName, work
               <AlertDialogAction
                 disabled={confirmText !== workflowName}
                 className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
-                onClick={(e) => {
+                onClick={() => {
                   toast.loading("Deleting workflow...");
                   deleteMutation.mutate(workflowId);
                   setOpen(false);
