@@ -1,4 +1,4 @@
-import DeleteWorkflow from '@/ations/workflows/deleteWorkflow';
+import DeleteWorkflow from '@/actions/workflows/deleteWorkflow';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { useMutation } from '@tanstack/react-query';
