@@ -24,8 +24,9 @@ export default function RootLayout({
           formButtonPrimary:
             "bg-primary hover:bg-primary/90 text-sm !shadow-none",
         },
-      }}>
-      <html lang="en">
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <AppProviders>{children}</AppProviders>
           <Toaster richColors />
