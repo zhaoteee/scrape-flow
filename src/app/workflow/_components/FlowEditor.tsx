@@ -1,7 +1,7 @@
 "use client";
 
 import { Workflow } from "@prisma/client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Background,
   BackgroundVariant,
@@ -10,6 +10,7 @@ import {
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
+  useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { CreateFlowNode } from "@/lib/workflow/createFlowNode";
@@ -22,10 +23,21 @@ const nodeTypes = {
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 0.5 };
 export default function FlowEditor({ workflow }: { workflow: Workflow }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState([
-    CreateFlowNode(TaskType.LAUNCH_BROWSER),
-  ]);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const { setViewport } = useReactFlow();
+
+  useEffect(() => {
+    try {
+      const flow = JSON.parse(workflow.defintion);
+      if (!flow) return;
+      setNodes(flow.nodes);
+      setEdges(flow.edges);
+      if (!flow.viewport) return;
+      setViewport(flow.viewport);
+    } catch (error) {}
+  }, []);
+
   return (
     <main className="h-full w-full">
       <ReactFlow
