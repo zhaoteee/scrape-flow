@@ -38,12 +38,11 @@ export default function DeleteWorkflowDialog({ open, setOpen, workflowName, work
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel onClick={() => setConfirmText('')}>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 disabled={confirmText !== workflowName}
                 className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
                 onClick={(e) => {
-                  e.stopPropagation();
                   toast.loading("Deleting workflow...");
                   deleteMutation.mutate(workflowId);
                   setOpen(false);
