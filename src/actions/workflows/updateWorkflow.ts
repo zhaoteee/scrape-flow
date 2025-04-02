@@ -3,8 +3,8 @@
 import prisma from "@/lib/prisma";
 import { WorkflowStaus } from "@/types/workflow";
 import { auth } from "@clerk/nextjs/server";
-// import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+// import { redirect } from "next/navigation";
 
 export async function UpdateWorkflow({
   id,
@@ -34,6 +34,5 @@ export async function UpdateWorkflow({
       userId,
     },
   });
-
-  //   redirect("/workflows");
+  revalidatePath("/workflows");
 }
