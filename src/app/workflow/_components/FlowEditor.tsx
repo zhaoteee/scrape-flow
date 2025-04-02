@@ -3,9 +3,12 @@
 import { Workflow } from "@prisma/client";
 import React, { useCallback, useEffect } from "react";
 import {
+  addEdge,
   Background,
   BackgroundVariant,
+  Connection,
   Controls,
+  Edge,
   ReactFlow,
   ReactFlowProvider,
   useEdgesState,
@@ -17,15 +20,19 @@ import { CreateFlowNode } from "@/lib/workflow/createFlowNode";
 import { TaskType } from "@/types/task";
 import NodeComponent from "./nodes/NodeComponent";
 import { AppNode } from "@/types/appNode";
+import DeletableEdges from "./edges/DeletableEdges";
 
 const nodeTypes = {
   Node: NodeComponent,
+};
+const edgeTypes = {
+  default: DeletableEdges,
 };
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = { padding: 0.5 };
 export default function FlowEditor({ workflow }: { workflow: Workflow }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const { setViewport, screenToFlowPosition } = useReactFlow();
 
   useEffect(() => {
@@ -54,7 +61,9 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
     const newNode = CreateFlowNode(taskType as TaskType, position);
     setNodes((nds) => nds.concat(newNode));
   }, []);
-
+  const onConnection = (connect: Connection) => {
+    setEdges((eds) => addEdge({ ...connect, animated: true }, eds));
+  };
   return (
     <main className="h-full w-full">
       <ReactFlow
@@ -63,12 +72,14 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
         onEdgesChange={onEdgesChange}
         onNodesChange={onNodesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         snapToGrid
         snapGrid={snapGrid}
         fitView
         fitViewOptions={fitViewOptions}
         onDragOver={onDargOver}
         onDrop={onDrop}
+        onConnect={onConnection}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Lines} gap={12} size={1} />
