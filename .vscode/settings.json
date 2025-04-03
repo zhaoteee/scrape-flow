@@ -2,8 +2,7 @@
   "editor.formatOnSave": true, // 开启保存文件自动格式化代码
   "eslint.enable": true, // 开启eslint检查
   "editor.codeActionsOnSave": {
-    // 使用eslint来fix，包括格式化会自动fix和代码质量检查会给出错误提示
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": {
