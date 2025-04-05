@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -9,9 +10,10 @@ interface Props {
   title: string;
   subtitle?: string;
   workflowId: string;
+  hideButtons?: boolean;
 }
 
-const Topbar = ({ title, subtitle, workflowId }: Props) => {
+const Topbar = ({ title, subtitle, workflowId, hideButtons }: Props) => {
   const router = useRouter();
   return (
     <header className="flex p-2 border-p-2 border-separate justify-between w-full h-[60px] sticky top-0 bg-background z-10">
@@ -28,8 +30,12 @@ const Topbar = ({ title, subtitle, workflowId }: Props) => {
           )}
         </div>
         <div className="flex gap-1 flex-1 justify-end">
-          <ExecuteBtn workflowId={workflowId} />
-          <SaveBtn workflowId={workflowId} />
+          {hideButtons === false && (
+            <>
+              <ExecuteBtn workflowId={workflowId} />
+              <SaveBtn workflowId={workflowId} />
+            </>
+          )}
         </div>
       </div>
     </header>
