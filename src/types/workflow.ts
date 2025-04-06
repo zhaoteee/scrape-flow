@@ -33,7 +33,7 @@ export enum WorkflowExcutionStatus {
 export enum WorkflowExcutionTrigger {
   MANUAL = "MANUAL",
 }
-export enum ExcutionPhaseStatus {
+export enum ExecutionPhaseStatus {
   CREATED = "CREATED",
   PENDING = "PENDING",
   RUNNING = "RUNNING",
