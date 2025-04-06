@@ -80,7 +80,7 @@ export default function ExcutionViewer({
       a.completedAt! > b.completedAt! ? -1 : 1
     )[0];
     setSelectedPhase(phaseToSelect.id);
-  }, [query.data?.phases, isRunning, selectedPhase]);
+  }, [query.data?.phases, isRunning, setSelectedPhase]);
   return (
     <div className="flex w-full h-full">
       <aside className="w-[440px] h-[440px] max-w-[440px] border-r-2 border-separate flex flex-grow flex-col  ">
@@ -172,7 +172,7 @@ export default function ExcutionViewer({
                   <CoinsIcon size={18} className="stroke-muted-foreground" />
                   <span>Credits</span>
                 </div>
-                <span>Todo</span>
+                <span>{phaseDetails.data.creditsConsumed}</span>
               </Badge>
               <Badge variant={"outline"} className="space-x-4">
                 <div className="flex gap-1 items-center">
