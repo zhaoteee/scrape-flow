@@ -30,7 +30,7 @@ const Topbar = ({ title, subtitle, workflowId, hideButtons }: Props) => {
           )}
         </div>
         <div className="flex gap-1 flex-1 justify-end">
-          {hideButtons === false && (
+          {!hideButtons && (
             <>
               <ExecuteBtn workflowId={workflowId} />
               <SaveBtn workflowId={workflowId} />

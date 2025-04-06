@@ -17,7 +17,7 @@ export const PageToHtml = {
       helperText: "eg: https://www.google.com",
       required: true,
     },
-  ],
+  ] as const,
   outputs: [
     {
       name: "Html",
@@ -27,5 +27,5 @@ export const PageToHtml = {
       name: "Web page",
       type: TaskParamType.BROWSER_INSTANCE,
     },
-  ],
+  ] as const,
 } satisfies WorkflowTask;
