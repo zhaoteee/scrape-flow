@@ -15,8 +15,11 @@ import { cn } from "@/lib/utils";
 import { WorkflowStaus } from "@/types/workflow";
 import { Workflow } from "@prisma/client";
 import {
+  CoinsIcon,
+  CornerDownRightIcon,
   FileTextIcon,
   MoreVerticalIcon,
+  MoveRightIcon,
   PlayIcon,
   ShuffleIcon,
   TrashIcon,
@@ -25,6 +28,8 @@ import Link from "next/link";
 import React from "react";
 import DeleteWorkflowDialog from "./DeleteWorkflowDialog";
 import RunBtn from "./RunBtn";
+import SchedulerDialog from "./SchedulerDialog";
+import { Badge } from "@/components/ui/badge";
 
 const statusColors = {
   [WorkflowStaus.DRAFT]: "bg-yellow-400 text-yellow-600",
@@ -49,19 +54,27 @@ export default function WorkflowCard({ workflow }: { workflow: Workflow }) {
               <PlayIcon className="h-5 w-5 text-white" />
             )}
           </div>
-          <h3 className="text-base font-bold text-muted-foreground flex items-center">
-            <Link
-              href={`/workflow/editor/${workflow.id}`}
-              className="flex items-center hover:underline"
-            >
-              {workflow.name}
-            </Link>
-            {isDraft && (
-              <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
-                Draft
-              </span>
-            )}
-          </h3>
+          <div>
+            <h3 className="text-base font-bold text-muted-foreground flex items-center">
+              <Link
+                href={`/workflow/editor/${workflow.id}`}
+                className="flex items-center hover:underline"
+              >
+                {workflow.name}
+              </Link>
+              {isDraft && (
+                <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                  Draft
+                </span>
+              )}
+            </h3>
+            <ScheduleSection
+              isDraft={isDraft}
+              creditsCost={workflow.creditsCost}
+              workflowId={workflow.id}
+              cron={workflow.cron}
+            />
+          </div>
         </div>
         <div className="flex items-center space-x-2">
           {!isDraft && <RunBtn workflowId={workflow.id} />}
@@ -115,5 +128,41 @@ function WorkflowAction({ workflow }: { workflow: Workflow }) {
         </DropdownMenuContent>
       </DropdownMenu>
     </>
+  );
+}
+
+function ScheduleSection({
+  isDraft,
+  creditsCost,
+  workflowId,
+  cron,
+}: {
+  isDraft: boolean;
+  creditsCost: number;
+  workflowId: string;
+  cron: string | null;
+}) {
+  if (isDraft) return null;
+  return (
+    <div className="flex items-center gap-2">
+      <CornerDownRightIcon className="h-4 w-4 text-muted-foreground" />
+      <SchedulerDialog
+        workflowId={workflowId}
+        cron={cron}
+        key={`${cron}-${workflowId}`}
+      />
+      <MoveRightIcon className="h-4 w-4 text-muted-foreground" />
+      <TooltipWrapper content="Credit consumption for full run">
+        <div className="flex items-center gap-3">
+          <Badge
+            variant={"outline"}
+            className="space-x-2 text-muted-foreground rounded-sm"
+          >
+            <CoinsIcon className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm font-medium">{creditsCost}</span>
+          </Badge>
+        </div>
+      </TooltipWrapper>
+    </div>
   );
 }

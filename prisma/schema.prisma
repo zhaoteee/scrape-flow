@@ -26,6 +26,9 @@ model Workflow {
   creditsCost Int @default(0)
   status      String
 
+  cron        String?
+  nextRunAt   DateTime?
+
   lastRunAt   DateTime?
   lastRunId   String?
   lastRunStatus String?
