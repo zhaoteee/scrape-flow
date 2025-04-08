@@ -14,7 +14,7 @@ import { Edge } from "@xyflow/react";
 import { LogCollector } from "@/types/log";
 import { createLogCollector } from "../log";
 
-export async function ExcutionWorkflow(executionId: string) {
+export async function ExcutionWorkflow(executionId: string, nextRunAt?: Date) {
   const execution = await prisma.workflowExecution.findUnique({
     where: {
       id: executionId,
@@ -34,7 +34,11 @@ export async function ExcutionWorkflow(executionId: string) {
   };
 
   // initialize workflow execution
-  await initializeWorkflowExecution(executionId, execution.workflowId);
+  await initializeWorkflowExecution(
+    executionId,
+    execution.workflowId,
+    nextRunAt
+  );
 
   // initialize phase status
   await initializePhaseStatuses(execution);
@@ -70,7 +74,8 @@ export async function ExcutionWorkflow(executionId: string) {
 
 async function initializeWorkflowExecution(
   executionId: string,
-  workflowId: string
+  workflowId: string,
+  nextRunAt: Date
 ) {
   await prisma.workflowExecution.update({
     where: { id: executionId },
@@ -87,6 +92,7 @@ async function initializeWorkflowExecution(
       lastRunAt: new Date(),
       lastRunStatus: WorkflowExcutionStatus.RUNNING,
       lastRunId: executionId,
+      ...(nextRunAt && { nextRunAt }),
     },
   });
 }
