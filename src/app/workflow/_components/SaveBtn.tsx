@@ -14,7 +14,7 @@ const SaveBtn = ({ workflowId }: { workflowId: string }) => {
     mutationFn: UpdateWorkflow,
     onSuccess: () => {
       toast.success("Flow saved successfully", { id: "save-workflow" });
-      router.push("/workflows");
+      // router.push("/workflows");
     },
     onError: (e) => {
       console.log(e);
