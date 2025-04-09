@@ -75,7 +75,7 @@ export async function ExcutionWorkflow(executionId: string, nextRunAt?: Date) {
 async function initializeWorkflowExecution(
   executionId: string,
   workflowId: string,
-  nextRunAt: Date
+  nextRunAt?: Date
 ) {
   await prisma.workflowExecution.update({
     where: { id: executionId },
@@ -221,7 +221,10 @@ async function executePhase(
   logCollector: LogCollector
 ): Promise<boolean> {
   const runFn = ExecutorRegistry[node.data.type];
-  if (!runFn) return false;
+  if (!runFn) {
+    logCollector.error(`not found executor for ${node.data.type}`);
+    return false;
+  }
   const executionEnvironment: ExecutionEnvironment<any> =
     createExecutionEnvironment(node, environment, logCollector);
   return await runFn(executionEnvironment);

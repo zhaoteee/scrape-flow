@@ -7,14 +7,14 @@ import SaveBtn from "./SaveBtn";
 import ExecuteBtn from "./ExecuteBtn";
 import NavigationTabs from "./NavigationTabs";
 import PublishBtn from "./PublishBtn";
-import UnpublishBtn from "./UnPublishBtn";
+import UnpublishBtn from "./UnpublishBtn";
 
 interface Props {
   title: string;
   subtitle?: string;
   workflowId: string;
   hideButtons?: boolean;
-  isPublished: boolean;
+  isPublished?: boolean;
 }
 
 const Topbar = ({

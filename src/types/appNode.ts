@@ -11,10 +11,15 @@ export interface AppNode extends Node {
   data: AppNodeData;
 }
 
+export interface OptionItem {
+  label: string;
+  value: string;
+}
 export interface ParamProps {
   param: TaskParam;
   disabled?: boolean;
   value: string;
+  options?: OptionItem[];
   updateNodeParamValue: (newValue: string) => void;
 }
 

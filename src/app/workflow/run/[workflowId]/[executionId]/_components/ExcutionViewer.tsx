@@ -57,7 +57,7 @@ export default function ExcutionViewer({
       q.state.data?.status === WorkflowExcutionStatus.RUNNING ? 1000 : false,
   });
   const phaseDetails = useQuery({
-    queryKey: ["phaseDetails", selectedPhase],
+    queryKey: ["phaseDetails", selectedPhase, query.data?.status],
     enabled: selectedPhase !== null,
     queryFn: () => GetWorkflowPhaseDetails(selectedPhase!),
   });
