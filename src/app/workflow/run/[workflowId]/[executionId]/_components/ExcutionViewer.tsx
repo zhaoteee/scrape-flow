@@ -83,7 +83,7 @@ export default function ExcutionViewer({
   }, [query.data?.phases, isRunning, setSelectedPhase]);
   return (
     <div className="flex w-full h-full">
-      <aside className="w-[440px] h-[440px] max-w-[440px] border-r-2 border-separate flex flex-grow flex-col  ">
+      <aside className="w-[440px] h-full max-w-[440px] border-r-2 border-separate flex flex-grow flex-col  ">
         <div>
           <ExcutionLable
             icon={CircleDashedIcon}
