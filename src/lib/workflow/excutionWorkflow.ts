@@ -58,6 +58,7 @@ export async function ExcutionWorkflow(executionId: string, nextRunAt?: Date) {
     }
     // execute phase
   }
+  console.log(creditsConsumed);
 
   // finalize execution
   await finalizeWorkflowExecution(

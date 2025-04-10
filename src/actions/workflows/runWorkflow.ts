@@ -57,7 +57,6 @@ export async function RunWorkflow(form: {
     }
     executionPlan = result.exectionPlan;
   }
-
   const execution = await prisma.workflowExecution.create({
     data: {
       workflowId,
@@ -75,6 +74,7 @@ export async function RunWorkflow(form: {
               number: phase.phase,
               node: JSON.stringify(node),
               name: TaskRegistry[node.data.type].label,
+              creditsConsumed: TaskRegistry[node.data.type].credits,
             };
           });
         }),
