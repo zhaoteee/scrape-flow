@@ -10,7 +10,7 @@ import { GetWorkflowExecutions } from "@/actions/workflows/getWorkflowExecutions
 import { GetWorkflowExecutionStats } from "@/actions/analytics/getWorkflowExecutionStats";
 import ExecutionStatusChart from "./_components/ExecutionStatusChart";
 import { GetCreditsUsageInPeriod } from "@/actions/analytics/getCreditsUsageInPeriod";
-import CreditUsageChart from "../billings/_components/CreditUsageChart";
+import CreditUsageChart from "../billing/_components/CreditUsageChart";
 
 function HomePage({
   searchParams,
