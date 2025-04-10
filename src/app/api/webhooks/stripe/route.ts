@@ -1,4 +1,4 @@
-import { HandleCheckoutSessionCompleted } from "@/lib/stripe/HandleCheckoutSessionCompleted";
+import { HandleCheckoutSessionCompleted } from "@/lib/stripe/handleCheckoutSessionCompleted";
 import { stripe } from "@/lib/stripe/stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
