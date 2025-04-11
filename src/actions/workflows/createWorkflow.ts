@@ -32,7 +32,8 @@ export default async function CreateWorkflow(form: CreateWorkflowSchema) {
       userId,
       status: WorkflowStaus.DRAFT,
       defintion: JSON.stringify(intialFlow),
-      ...data,
+      name: data.name || "",
+      description: data.description || "",
     },
   });
   if (!workflow) {
