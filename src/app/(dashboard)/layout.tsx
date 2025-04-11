@@ -22,8 +22,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <Separator />
         <div className="overflow-auto">
           <div className="flex-1 container py-4 text-accent-foreground">
-            {/* {children} */}
-            <div>aaaaaaaaaaaaaaaaaaaaaaaaa</div>
+            {children}
           </div>
         </div>
       </div>
