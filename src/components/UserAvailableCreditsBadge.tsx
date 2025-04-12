@@ -18,7 +18,7 @@ export default function UserAvailableCreditsBadge() {
 
   return (
     <Link
-      href={"/biling"}
+      href={"/billing"}
       className={cn(
         "w-full space-x-2 items-center",
         buttonVariants({ variant: "outline" })
