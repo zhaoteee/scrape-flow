@@ -22,8 +22,8 @@ export async function HandleCheckoutSessionCompleted(
   if (!purchasedPack) {
     throw new Error("purchased pack not found");
   }
-  console.log(userId, purchasedPack.credits);
   try {
+    console.log("prepare", userId, purchasedPack.credits);
     await prisma.userBalance.upsert({
       where: { userId },
       create: {
@@ -36,6 +36,7 @@ export async function HandleCheckoutSessionCompleted(
         },
       },
     });
+    console.log("after userBalance.upsert");
     await prisma.userPurchase.create({
       data: {
         userId,
@@ -45,7 +46,7 @@ export async function HandleCheckoutSessionCompleted(
         currency: event.currency!,
       },
     });
-    console.log("after userBalance.upsert");
+    console.log("after userPurchase.create");
   } catch (error) {
     console.log("add userBalance.upsert error", error);
   }
