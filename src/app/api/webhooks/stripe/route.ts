@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     console.log("event.type", event.type);
     switch (event.type) {
       case "checkout.session.completed":
+        // 部署到Vercel 要使用await  Vercel会清理执行环境导致异步任务无法执行,充值就会失败
         await HandleCheckoutSessionCompleted(event.data.object);
         break;
 
