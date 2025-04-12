@@ -8,7 +8,6 @@ export async function HandleCheckoutSessionCompleted(
   event: Stripe.Checkout.Session
 ) {
   //   writeFile("session_completed.json", JSON.stringify(event), (err) => {});
-  console.log(event.metadata);
   if (!event.metadata) {
     throw new Error("missing metadata");
   }
@@ -24,26 +23,30 @@ export async function HandleCheckoutSessionCompleted(
     throw new Error("purchased pack not found");
   }
   console.log(userId, purchasedPack.credits);
-  await prisma.userBalance.upsert({
-    where: { userId },
-    create: {
-      userId,
-      credits: purchasedPack.credits,
-    },
-    update: {
-      credits: {
-        increment: purchasedPack.credits,
+  try {
+    await prisma.userBalance.upsert({
+      where: { userId },
+      create: {
+        userId,
+        credits: purchasedPack.credits,
       },
-    },
-  });
-  console.log("after userBalance.upsert");
-  await prisma.userPurchase.create({
-    data: {
-      userId,
-      stripeId: event.id,
-      description: `${purchasedPack.name} - ${purchasedPack.credits} credits`,
-      amount: event.amount_subtotal!,
-      currency: event.currency!,
-    },
-  });
+      update: {
+        credits: {
+          increment: purchasedPack.credits,
+        },
+      },
+    });
+    await prisma.userPurchase.create({
+      data: {
+        userId,
+        stripeId: event.id,
+        description: `${purchasedPack.name} - ${purchasedPack.credits} credits`,
+        amount: event.amount_subtotal!,
+        currency: event.currency!,
+      },
+    });
+    console.log("after userBalance.upsert");
+  } catch (error) {
+    console.log("add userBalance.upsert error", error);
+  }
 }
