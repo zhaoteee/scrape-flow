@@ -8,6 +8,7 @@ export async function HandleCheckoutSessionCompleted(
   event: Stripe.Checkout.Session
 ) {
   //   writeFile("session_completed.json", JSON.stringify(event), (err) => {});
+  console.log(event.metadata);
   if (!event.metadata) {
     throw new Error("missing metadata");
   }
@@ -22,6 +23,7 @@ export async function HandleCheckoutSessionCompleted(
   if (!purchasedPack) {
     throw new Error("purchased pack not found");
   }
+  console.log(userId, purchasedPack.credits);
   await prisma.userBalance.upsert({
     where: { userId },
     create: {
@@ -34,6 +36,7 @@ export async function HandleCheckoutSessionCompleted(
       },
     },
   });
+  console.log("after userBalance.upsert");
   await prisma.userPurchase.create({
     data: {
       userId,
